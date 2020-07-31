@@ -12,8 +12,10 @@ twilioRouter.get('/',(req,res,next) => {
 })
   
 twilioRouter.post('/', async (req, res) => {
-  console.log(req)
+  
   const { body } = req;
+
+  console.log(body)
 
   let message;
 
