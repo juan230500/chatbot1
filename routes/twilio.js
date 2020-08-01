@@ -19,11 +19,13 @@ twilioRouter.post('/', async (req, res) => {
 
   let message;
 
-  if (body.NumMedia > 0) {
-    message = new MessagingResponse().message("Thanks for the image! Here's one for you!");
+  if (body.Latitude) {
+    message = new MessagingResponse().message(`
+    Latitude: ${body.Latitude}
+    Longitude:: ${body.Longitude:}`);
     message.media(goodBoyUrl);
   } else {
-    message = new MessagingResponse().message('Send us an image!');
+    message = new MessagingResponse().message('Send a location');
   }
 
   res.set('Content-Type', 'text/xml');
