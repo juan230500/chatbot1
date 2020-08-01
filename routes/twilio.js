@@ -22,7 +22,7 @@ twilioRouter.post('/', async (req, res) => {
   if (body.Latitude) {
     message = new MessagingResponse().message(`
     Latitude: ${body.Latitude}
-    Longitude:: ${body.Longitude:}`);
+    Longitude: ${body.Longitude}`);
     message.media(goodBoyUrl);
   } else {
     message = new MessagingResponse().message('Send a location');
