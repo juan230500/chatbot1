@@ -7,7 +7,8 @@
     "node": "12.18.2"
   },
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "nodemon index.js"
   },
   "repository": {
     "type": "git",
@@ -20,7 +21,12 @@
   },
   "homepage": "https://github.com/juan230500/chatbot1#readme",
   "dependencies": {
+    "axios": "^0.19.2",
     "express": "^4.17.1",
+    "mongoose": "^5.9.27",
     "twilio": "^3.48.1"
+  },
+  "devDependencies": {
+    "nodemon": "^2.0.4"
   }
 }

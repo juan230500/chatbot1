@@ -1,6 +1,8 @@
 const express = require('express');
 const { Router } = require('express');
 const { MessagingResponse } = require('twilio').twiml;
+const Record = require('../models/record');
+const botLogic = require ('../bot-logic');
 
 const twilioRouter = express.Router();
 const goodBoyUrl = 'https://images.unsplash.com/photo-1518717758536-85ae29035b6d?'
@@ -8,8 +10,11 @@ const goodBoyUrl = 'https://images.unsplash.com/photo-1518717758536-85ae29035b6d
 
   
 twilioRouter.get('/',(req,res,next) => {
-    res.json({message:"hello"})
+    res.json({message:"Hello! this is the whatsapp bot api"})
 })
+
+
+
   
 twilioRouter.post('/', async (req, res) => {
   
@@ -17,16 +22,17 @@ twilioRouter.post('/', async (req, res) => {
 
   console.log(body)
 
-  let message;
+  let message = await botLogic(body);
+  message = new MessagingResponse().message(message);
 
-  if (body.Latitude) {
+  /*if (body.Latitude) {
     message = new MessagingResponse().message(`
     Latitude: ${body.Latitude}
     Longitude: ${body.Longitude}`);
     message.media(goodBoyUrl);
   } else {
     message = new MessagingResponse().message('Send a location');
-  }
+  }*/
 
   res.set('Content-Type', 'text/xml');
   res.send(message.toString()).status(200);
