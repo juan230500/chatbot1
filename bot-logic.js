@@ -73,15 +73,11 @@ Si desea cancelar o reiniciar algún proceso puede usar el comando "salir".
                         break;
                     }
                     message = "Ha accedido al proceso de pedidos. Estos son sus pedidos pendientes:\n";
-                    const response = axios.get('https://jsonplaceholder.typicode.com/posts');
-                    items = [
-                        {product:"papa",quantity:10,totalPrice:200,_id:"1"},
-                        {product:"tomate",quantity:20,totalPrice:2000,_id:"2"},
-                        {product:"arroz",quantity:33,totalPrice:10,_id:"3"}
-                    ]
+                    const response = await instance.get('/productores/orders?state=pendingConfirm');
+                    items = response.data
                     record.itemsData = items;
                     for (i in items){
-                        message += `${i}) ${items[i].quantity} de ${items[i].product} por $${items[i].totalPrice}\n`
+                        message += `${i}) ${items[i].quantity} de ${items[i].name} por $${items[i].totalPrice}\n`
                     }
                     message += "Use el comando 'Rechazar-4' o 'Aceptar-2' para aceptar pedido 2 por ejemplo";
                     record.state = 'order';
@@ -226,6 +222,7 @@ Si desea cancelar o reiniciar algún proceso puede usar el comando "salir".`;
             }
             index = parseInt(index);
             console.log(record.itemsData[index]);
+            let id = record.itemsData[index]._id;
             if (command === "Aceptar"){
                 message = `
 Pedido aceptado.
@@ -235,6 +232,7 @@ Puede usar alguno de los siguientes procesos:
 3) Ver y agregar a su catálogo de productos 
 Para elegir una opción escriba alguno de los números de arriba.
 Si desea cancelar o reiniciar algún proceso puede usar el comando "salir".`;
+                instance.patch('/productores/orders/'+id,{state:"pendingTransport"});
             }
             else{
                 message = `
@@ -245,7 +243,9 @@ Puede usar alguno de los siguientes procesos:
 3) Ver y agregar a su catálogo de productos 
 Para elegir una opción escriba alguno de los números de arriba.
 Si desea cancelar o reiniciar algún proceso puede usar el comando "salir".`;
+                instance.delete('/productores/orders/'+id);
             }
+            
             record.state = 'init';
             break;
         default:
